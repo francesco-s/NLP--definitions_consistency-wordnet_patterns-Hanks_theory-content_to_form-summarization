@@ -201,3 +201,37 @@ I corpus sono stati estratti da *Sketch Engine* tramite il tool *Concordance*. E
 
 #### Risultati
 
+Per entrambi i corpus (eat e buy) sono stati trovati circa 200 cluster semantici.
+
+Nelle due prossime tabelle verranno mostrati i 10 cluster più frequenti per ogni verbo in analisi.
+
+- **Buy**
+
+| Cluster                                 | Percentuale di appartenenza |
+| --------------------------------------- | --------------------------- |
+| ('noun.quantity', 'noun.cognition')     | 7.48%                       |
+| ('noun.group', 'noun.artifact')         | 4.61%                       |
+| ('noun.quantity', 'noun.communication') | 3.59%                       |
+| ('noun.person', 'noun.artifact')        | 2.66%                       |
+| ('noun.act', 'noun.substance')          | 2.25%                       |
+| ('noun.group', 'noun.communication')    | 2.25%                       |
+| ('noun.substance', 'noun.artifact')     | 1.98%                       |
+| ('noun.quantity', 'noun.artifact')      | 1.95%                       |
+| ('noun.quantity', 'noun.person')        | 1.84%                       |
+| ('noun.quantity', 'noun.act')           | 1.84%                       |
+
+- **Eat** 
+
+| Cluster                             | Percentuale di appartenenza |
+| ----------------------------------- | --------------------------- |
+| ('noun.quantity', 'noun.food')      | 8.86%                       |
+| ('noun.quantity', 'noun.cognition') | 5.35%                       |
+| ('noun.group', 'noun.food')         | 5.00%                       |
+| ('noun.person', 'noun.food')        | 4.12%                       |
+| ('noun.quantity', 'noun.artifact')  | 2.81%                       |
+| ('noun.substance', 'noun.food')     | 2.63%                       |
+| ('noun.quantity', 'noun.quantity')  | 2.19%                       |
+| ('noun.group', 'noun.cognition')    | 1.84%                       |
+| ('noun.person', 'noun.cognition')   | 1.75%                       |
+| ('noun.group', 'noun.act')          | 1.49%                       |
+
