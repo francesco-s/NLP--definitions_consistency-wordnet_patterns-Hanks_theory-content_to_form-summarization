@@ -160,7 +160,44 @@ Gli studi effettuati sono 4:
 
 #### Introduzione
 
+L'obiettivo dell'esercitazione è lo studio di alcuni verbi dal punto di vista della **Teoria di Hanks**. Il verbo è la radice del significato. Non esistono espressioni senza verbo. Ad ogni verbo viene associata una valenza che indica il numero di argomenti necessari per il verbo. In base al numero di argomenti che un verbo richiede, in alcuni casi possiamo differenziarne il significato. Una volta determinato il numero di argomenti di un verbo dobbiamo specificarli mediante un certo numero di slot. Ogni slot può avere un certo numero di valori che lo riempiono, detti **filler**. Ogni filler può avere associati dei **tipi semantici** che rappresentano delle generalizzazioni concettuali strutturate come una gerarchia. Raggruppiamo i vari filler secondo alcuni types. Essi sono **gruppi semantici** generici o categorizzazioni/clusterizzazioni dei filler.
+
+E' stato scelto di effettuare gli esperimenti su due verbi in particolare:
+
+1. **eat**
+2. **buy** 
+
+Inoltre sono state considerate solo le forme del verbo al presente, quindi: eat, eats, buy, buys. 
+
+I corpus sono stati estratti da *Sketch Engine* tramite il tool *Concordance*. Essi contengono circa 10000 frasi in inglese composte dal verbo in questione. Ogni frase descrive un contesto generico. 
+
 #### Sviluppo
+
+- **remove_stopwords(words_list)**, **remove_punctuation(sentence)**, **tokenize_sentence(sentence)**, **get_signature(sense)**: implementazione analoga ad esercizio precedente.
+
+- **search_obj(sentence, head_verb, pattern)**: data una frase elaborata come oggetto *spacy*, il verbo e un numero minore di 3 di argomenti all'interno del pattern, viene calcolato l'oggetto della frase in base alla sua costruzione sintattica a dipendenze. 
+
+  Un esempio di pattern: 
+
+  <code>
+
+  ```python
+  [('You', 'PRP', 'buy', 'nsubj'), ('products', 'NNS', 'buy', 'dobj'), 
+  You can buy our products by PAYPAL Or Credit Card. 
+    ]
+  ```
+
+  </code>
+
+- **search_subj(sentence, head_verb, pattern)**: funzione analoga a quella precedente, ma per il calcolo del soggetto.
+
+- **disambiguate_terms(pattern)** : una volta ottenuti i pattern all'interno del corpus si effettua la disambiguazione ovvero viene associato un senso di Wordnet alle dipendenze di ogni pattern, attraverso l'algoritmo **Lesk**.
+
+- **semantic_clusters(patterns)**:  dato in input una lista di pattern vengono calcolati i cluster semantici. Viene utilizzata la funzione precedentemente descritta per l'assegnazione del senso alle due dipendenze. Attraverso l'attributo *lexname* otteniamo il supersenso associato ai due argomenti.
+
+  Il calcolo dei cluster viene effettuato mediante l'ausilio del modulo *Counter* il quale va a creare un dizionario le cui chiavi corrispondono alle coppie *supersense1, supersense2* e il valore al numero di volte che appare quella coppia all'interno della lista di pattern. Una volta fatto ciò è semplice attribuire una percentuale di appartenenza ai cluster calcolati implicitamente con *Counter*. Infine viene restituita una struttura ordinata in base a tale percentuale.
+
+- **find_patterns()**: in seguito all'inizializzazione di *spacy* e al parsing del file XML del corpus tramite *minidom*, vengono invocate le funzioni per il calcolo dell'oggetto e del soggetto di ogni frase. Vengono salvati esclusivamente i pattern contenenti esattamente due argomenti.
 
 #### Risultati
 
