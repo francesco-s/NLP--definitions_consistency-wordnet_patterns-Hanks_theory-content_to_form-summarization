@@ -27,7 +27,7 @@ Il file *definizioni.csv* contiene 30 definizioni per ogni concetto.
 
 - ***get_signature(sense)***: attraverso l'uso dei metodi precedentemente descritti e delle API di Wordnet viene calcolata la **signature**, ovvero la concatenazione delle parole pre-processate delle definizioni e i termini provenienti dagli esempi in WN per un determinato senso.
 
-- ***get_definitions()*** è la funzione che va a leggere il file *definizioni.csv* e restituisce un dizionario dove la chiave è rappresentata dal termine e il valore da una lista di **BoW** correlata alle definizioni. Vengono utilizzati i metodi menzionati in precedenza.
+- ***get_definitions(file)*** è la funzione che va a leggere il file *definizioni.csv* e restituisce un dizionario dove la chiave è rappresentata dal termine e il valore da una lista di **BoW** correlata alle definizioni. Vengono utilizzati i metodi menzionati in precedenza.
 
 - ***cosine_sim(def1, def2)*** : prende in input due insiemi di parole corrispondenti a due definizioni distinte, crea due vettori numerici, uno per *def1* e uno per *def2*, che conterranno 1 se la parola in analisi appartiene al set e 0 altrimenti. Ciò viene fatto per ogni parola che appare nelle due definizioni. Il calcolo della similarità del coseno viene effuata proprio tra questi due vettori numerici. La similarità è uguale al rapporto del prodotto scalare tra i vettori e il prodotto delle loro norme.
   $$
@@ -205,33 +205,249 @@ Per entrambi i corpus (eat e buy) sono stati trovati circa 200 cluster semantici
 
 Nelle due prossime tabelle verranno mostrati i 10 cluster più frequenti per ogni verbo in analisi.
 
-- **Buy**
+- **Buy**: 2709 pattern in 167 cluster
 
 | Cluster                                 | Percentuale di appartenenza |
 | --------------------------------------- | --------------------------- |
-| ('noun.quantity', 'noun.cognition')     | 7.48%                       |
-| ('noun.group', 'noun.artifact')         | 4.61%                       |
-| ('noun.quantity', 'noun.communication') | 3.59%                       |
-| ('noun.person', 'noun.artifact')        | 2.66%                       |
-| ('noun.act', 'noun.substance')          | 2.25%                       |
-| ('noun.group', 'noun.communication')    | 2.25%                       |
-| ('noun.substance', 'noun.artifact')     | 1.98%                       |
-| ('noun.quantity', 'noun.artifact')      | 1.95%                       |
-| ('noun.quantity', 'noun.person')        | 1.84%                       |
-| ('noun.quantity', 'noun.act')           | 1.84%                       |
+| ('noun.quantity', 'noun.artifact')      | 11.43%                      |
+| ('noun.quantity', 'noun.cognition')     | 7.12%                       |
+| ('noun.group', 'noun.artifact')         | 4.71%                       |
+| ('noun.quantity', 'noun.communication') | 3.71%                       |
+| ('noun.person', 'noun.artifact')        | 3.71%                       |
+| ('noun.act', 'noun.substance')          | 2.81%                       |
+| ('noun.group', 'noun.communication')    | 2.31%                       |
+| ('noun.substance', 'noun.artifact')     | 2.31%                       |
+| ('noun.quantity', 'noun.person')        | 2.11%                       |
+| ('noun.quantity', 'noun.act')           | 2.01%                       |
 
-- **Eat** 
+- **Eat**: 2902 pattern in 202 cluster
 
 | Cluster                             | Percentuale di appartenenza |
 | ----------------------------------- | --------------------------- |
-| ('noun.quantity', 'noun.food')      | 8.86%                       |
-| ('noun.quantity', 'noun.cognition') | 5.35%                       |
-| ('noun.group', 'noun.food')         | 5.00%                       |
-| ('noun.person', 'noun.food')        | 4.12%                       |
-| ('noun.quantity', 'noun.artifact')  | 2.81%                       |
-| ('noun.substance', 'noun.food')     | 2.63%                       |
-| ('noun.quantity', 'noun.quantity')  | 2.19%                       |
-| ('noun.group', 'noun.cognition')    | 1.84%                       |
-| ('noun.person', 'noun.cognition')   | 1.75%                       |
-| ('noun.group', 'noun.act')          | 1.49%                       |
+| ('noun.quantity', 'noun.food')      | 8.32%                       |
+| ('noun.quantity', 'noun.cognition') | 5.52%                       |
+| ('noun.group', 'noun.food')         | 4.84%                       |
+| ('noun.person', 'noun.food')        | 4.16%                       |
+| ('noun.quantity', 'noun.artifact')  | 2.72%                       |
+| ('noun.substance', 'noun.food')     | 2.72%                       |
+| ('noun.quantity', 'noun.quantity')  | 2.29%                       |
+| ('noun.group', 'noun.cognition')    | 2.04%                       |
+| ('noun.person', 'noun.cognition')   | 1.61%                       |
+| ('noun.group', 'noun.act')          | 1.53%                       |
+
+
+
+## Quinta esercitazione
+
+#### Introduzione
+L'obiettivo di questa esercitazione è la sperimentazione del content-to-form, cioè cercare di risalire al synset di un concetto indirizzando la ricerca in WordNet attraverso i **genus** dello stesso e usare approcci di overlapping delle parole per sfruttare il meccanismo di **differentia**.
+
+Secondo il principio **Genus-Differentia** **definition** un concetto può essere descritto secondo due elementi principali:
+
+- Genus: una definizione esistente che viene utilizzata come porzione di una nuova definizione; tutte le definizioni con lo stesso genus sono considerate membre di quel genus.
+- Differentia: la porzione di definizione che non viene data dal genus e che rende più specifico e caratterizzato un concetto.
+
+#### Sviluppo
+
+- **remove_stopwords(words_list)**, **remove_punctuation(sentence)**, **tokenize_sentence(sentence)**, **get_signature(sense)**: implementazione analoga ad esercizio precedente.
+- **get_definitions(file)**: stessa implementazione del primo esercizio: legge un file *.csv* e restituisce un dizionario con le definizioni per ogni concetto in analisi.
+- **get_genus_list(definitions_word)**: una volta ottenute le definizioni dei concetti, utilizziamo ancora il modulo *Counter* per ottenere un dizionario le cui chiavi sono le parole appartentenenti alla defininizione e i valori rappresentano la frequenza di comparsa di quella parola. Utilizzeremo come *genus* le 5 parole che appaiono più frequentemente dato che, grazie a loro, è possibile creare un *intorno semantico*.
+- **get_candidates(genus_list, definitions_word)**: per ogni genus, ottengo il suo miglior iperonimo, ovvero quello che va a massimizzare l'overlap tra la *signature* (gloss + esempi) dell'iperonimo e il BoW delle definizioni associate al concetto in analisi.
+
+#### Risultati
+
+<code>
+
+```python
+-----------------------
+Concept:  Courage
+
+Genus list (with frequency): 
+[('ability', 18), ('fear', 17), ('face', 9), ('situation', 7), ('scar', 5)]
+
+Candidates:
+[('ability', Synset('physical_ability.n.01')), ('fear', Synset('stage_fright.n.01')), ('face', Synset('take_the_bull_by_the_horns.v.01')), ('situation', Synset('crowding.n.01')), ('scar', Synset('keloid.n.01'))]
+-----------------------
+Concept:  Paper
+
+Genus list (with frequency): 
+[('material', 23), ('write', 18), ('cellulose', 7), ('wood', 6), ('tree', 5)]
+
+Candidates:
+[('material', Synset('composite_material.n.01')), ('write', Synset('handwrite.v.01')), ('cellulose', Synset('pulp.n.03')), ('wood', Synset('balsa.n.01')), ('tree', Synset('poon.n.02'))]
+-----------------------
+Concept:  Apprehension
+
+Genus list (with frequency): 
+[('fear', 10), ('anxiety', 10), ('feeling', 5), ('happen', 5), ('feel', 4)]
+
+Candidates:
+[('fear', Synset('apprehension.n.01')), ('anxiety', Synset('panic.n.02')), ('feeling', Synset('glow.v.05')), ('happen', Synset('concur.v.02')), ('feel', Synset('glow.v.05'))]
+-----------------------
+Concept:  Sharpener
+
+Genus list (with frequency): 
+[('pencil', 25), ('sharpen', 17), ('tool', 16), ('object', 11), ('allow', 4)]
+
+Candidates:
+[('pencil', Synset('lead_pencil.n.01')), ('sharpen', Synset('edge.v.04')), ('tool', Synset('drill.n.01')), ('object', Synset('commemorative.n.01')), ('allow', Synset('pass.v.17'))]
+```
+
+</code>
+
+Possiamo notare che solo in un unico caso troviamo una corrispondenza esatta tra il miglior senso attribuito al *genus* e un senso del concetto in analisi. Parliamo di *Apprehension* e il suo genus *fear*: entrambi sono mappati al *Synset('apprehension.n.01')*. Questo è dovuto al debole legame semantico che si va a creare tra il concetto in analisi e l'intorno ottenuto attraverso i genus e i loro iperonimi. Inoltre le definizioni date da noi studenti risultano meno pragmatiche e precise delle signature presenti in Wordnet.
+
+
+
+## Sesto esercizio
+
+#### Introduzione
+
+La sesta esercitazione prevede la realizzazione del task di **summarization**. Il task consiste nell'effettuare un riassunto automatico a partire da un testo in input. La risorsa utilizzata per svolgere il riassunto è NASARI in formato embedded, ovvero una rappresentazione vettoriale di synset Babelnet. L'approccio utilizzato è detto *estrattivo* e di tipo *statistico*: il riassunto viene creato estraendo parti di testo rilevanti (interi paragrafi o frasi) in base al tasso di compressione utilizzato. Il riassunto ottenuto sarà *indicativo*, ossia fornirà un'idea sul contenuto e *informativo*, ovvero conterrà tutti gli elementi rilevanti del documento iniziale. Il titolo del documento rappresenta un modo semplice ed efficace per capire di cosa tratterà il documento. A partire da esso saranno calcolati dei topics che ci consentiranno di scartare quei paragrafi che sono distanti semanticamente distanti da essi.
+
+#### Sviluppo
+
+- **read_nasari(file)**: richiede in input il path al file NASARI contenente i vettori embedded e restituisce in output un dizionario del tipo {babel_id: {term:score}...}.
+
+- **read_doc(file)**: legge il documento da riassumere. Viene restituita una lista contenente l'insieme dei paragrafi.
+
+- **calculate_rank(vector, nasari_vector)**: calcola il rank di uno specifico vettore. Nel nostro caso verrà restituito la posizione che ha il vettore all'interno del vettore di nasari. 
+
+- **weighted_overlap(nasari_vector_1, nasari_vector_2)**: Implementazione della formula di *Weighted Overlap* tra due vettori di nasari. Maggiore è l'overlap è più simili saranno i vettori.
+  $$
+  WO(v_1,v_2) = \frac{\sum_{q \in O} (rank(q, v_1) + rank(q, v_2))^{-1}}{\sum_{i=1}^{|O|} (2i)^{-1}}
+  $$
+  Dove *O* è l'insieme di dimensioni in comune tra i due vettori.
+
+- **bag_of_word_approach(text)**: metodo che effettua la rimozione delle stop-words e della punteggiatura. I termini rimanenti vengono ridotti nel loro lemma.
+
+- **get_topic_from_title(document, nasari)**: vengono calcolati i topic di un documento considerando le parole più significative del titolo. In output avremo la rappresentazione vettoriale di questi termini.
+
+- **text_to_nasari(text, nasari)**:  calcola una rappresentazione vettoriale delle BoW dei termini di ciascun paragrafo del testo.
+
+- **calculate_lines_to_keep(doc_paragraphs, percentage)**: dati i paragrafi di un documento e la percentuale di riduzione viene computato il numero di paragrafi da tenere.
+
+- **reduce_document(doc_paragraphs_overlaps, lines_to_keep)**: il primo parametro è una struttura contenente l'ID del paragrafo, l'overlap medio tra i suoi termini e i topic (entrambi in formato vettoriale) e il suo testo. Una volta ordinati i paragrafi in base allo score, si crea una nuova struttura solo con i primi *n=lines_to_keep* paragrafi. Infine viene ristabilito l'ordine iniziale grazie all'ID di tipo auto-increment.
+
+- **summarization(document, nasari, percentage)**: metodo principale che necessita in input del documento composto da titolo e paragrafi, il vettore Nasari e la percentuale di riduzione. Esso utilizza i metodi precedentemente descriitti. Possiamo riassumere il suo lavoro in:
+
+  1. Calcolo dei topic utilizzando il titolo
+  2. Per ogni paragrafo
+     1. Ottiene la sua rappresentazione vettoriale
+     2.  Per ogni parola del paragrafo (rappresentata in forma vettoriale)
+        1. Per ogni topic
+           1. Calcola l'overlap tra il topic e la parola
+           2. Somma tutti gli score ottenuti
+        2. Calcola la media degli score della parola per ogni topic
+        3. Somma le medie degli score di ogni parola ottenendo un punteggio cumulativo per il paragrafo
+     3. Divide la somma cumulativa acquisita al passo precedente per il numero di paragrafi in modo da ottenere uno score medio per quel paragrafo
+  3. Ricava il numero di paragrafi da tenere in base alla percentuale di riduzione e alla grandezza del documento
+  4. Calcola e restituisce il documento ridotto
+
+- Nell**'ultimo blocco** del notebook avviene l'analisi dei risultati ottenuti dall'algoritmo. Per il valutazione delle performance sono stati utilizzate due metriche distinte: **Bleu** e **Rogue**.
+
+  Il BLEU originalmente veniva utilizzato per misurare la qualità di una traduzione fatta da una macchina confrontandola con quello che avrebbe fatto un essere umano esperto. Viene oggi utilizzata principalmente nella valutazione di riassunti automatici. Nel nostro caso calcola quanti 1-gram sono sopravvissuti applicando la summarization al documento originale (**precision**).
+  La metrica del Rogue si basa sullo stesso principio del BLEU, ovvero calcola quanto la "traduzione" della macchina sia simile alla traduzione da parte di un agente umano. A differenza di BLEU controlla quanti 1-gram (2-grams e l-grams) contenuti nel documento creato dall'esperto sono presenti anche nel documento generato (**recall**).
+
+#### Risultati
+
+A seguire l'output restituito dall'esecuzione dell'algoritmo sul documento intitolato *Andy Warhol: Why the great Pop artist thought ‘Trump is sort of cheap’*. Andy Warhol fu una figura predominante del movimento della Pop art nel XX secolo, oltre che ad un artista e produttore televisivo e cinematografico. Sono stati effetuati dei test anche su altri documenti i quali mostrato risultati paragonabili.
+
+<code>
+
+```python
+Andy-Warhol 	Original lenght: 20
+
+
+10 % redution 	Summary lenght: 18
+
+BLEU score:  0.8948393168143697
+Rogue scores:  [{'rouge-1': {'f': 0.9290555756849036, 'p': 1.0, 'r': 0.8675105485232067}, 'rouge-2': {'f': 0.9136137444598561, 'p': 0.9834469328140214, 'r': 0.8530405405405406}, 'rouge-l': {'f': 0.9369369319568218, 'p': 1.0, 'r': 0.8813559322033898}}]
+
+
+20 % redution 	Summary lenght: 16
+
+BLEU score:  0.7788007830714049
+Rogue scores:  [{'rouge-1': {'f': 0.8523002372398267, 'p': 1.0, 'r': 0.7426160337552743}, 'rouge-2': {'f': 0.8376151187156861, 'p': 0.9829351535836177, 'r': 0.7297297297297297}, 'rouge-l': {'f': 0.8771626248332306, 'p': 1.0, 'r': 0.7812018489984591}}]
+
+
+30 % redution 	Summary lenght: 14
+
+BLEU score:  0.6514390575310556
+Rogue scores:  [{'rouge-1': {'f': 0.8030302982242884, 'p': 1.0, 'r': 0.6708860759493671}, 'rouge-2': {'f': 0.7896865472671786, 'p': 0.9836272040302267, 'r': 0.6596283783783784}, 'rouge-l': {'f': 0.8400357413299089, 'p': 1.0, 'r': 0.724191063174114}}]
+```
+
+</code> 
+
+Come prevedibile, man mano aumentiamo il tasso di compressione entrambe le metriche subiscono una riduzione più o meno significativa. Il Rogue sembra risentirne meno, soprattutto se consideriamo la precisione. Quest'ultimo è un dato fuorviante dato che va a calcolare quanti unigrammi, bigrammi e l-grams del riassunto sono presenti anche nel documento originale (tutti o quasi). La recall, invece, misura quanti unigrammi, bigrammi e l-grams contenuti nel documento originale sono presenti anche nel riassunto. La recall, quindi, risulta essere il dato più indicativo.
+
+## Settimo esercizio
+
+#### Introduzione
+
+Lo scopo dell'esercitazione è di fare **topic modelling**, ovvero creare un modello statistico in grado di determinare gli argomenti o topic da una collezione di documenti. Non ci limiteremo a individuare il topic principale, ma cercheremo anche dei sotto-argomenti più specifici e distinti da quello principale.
+
+Gli esperimenti sono stati condotti tramite alcuni corpus estrapolati da *Sketch Engine*. Gli unici corpus disponibili gratuitamente al download e che presentano una struttura e una composizione organizzata in documenti e paragrafi sono 3: *travelling*, *italian_cuisine*, *future_tenses*. Quest'ultimo contiene solo 10 documenti e non consente la creazione di un modello accurato. In questa analisi tratteremo il corpus *travelling*.
+
+#### Sviluppo
+
+- **remove_stopwords(words_list)**, **remove_punctuation(sentence)**, **tokenize_sentence(sentence)**, **get_signature(sense)**: implementazione analoga ad esercizio precedente.
+
+- **read_corpus(txt_file)**: dato il path del file contenente il corpus, viene letto ogni documento e ogni paragrafo. In output avremo, quindi, una lista di documenti a cui viene associata una lista di parole appartententi ad ognuno di essi.
+
+- **topic_modelling(documents_words)**: data la lista di liste ottenute dalla funzione precedente, viene dapprima creato, con l'ausilio di *corpora*, un dizionario a cui viene associata una chiave intera ad ogni parola e successivamente vengono scartati quei token che non appaiono in meno di 3 e in più del 60% dei documenti (tramite *filter_extremes(no_below=5, no_above=0.6*). Viene creata una lista di BoW del tipo *(id_term, term_frequency)* per ogni termine nei documenti con il metodo *doc2bow*.
+
+  Infine, la funzione *LdaModel* effettua il training del modello LDA (Latent Dirichlet Allocation). Le BoW vengono mappate in un nuovo spazio di dimensione minore. Possiamo vedere i topic del modello LDA come una distribuzione di probabilità sulle parole.
+
+  Il training è effettuato a partire da:
+
+  1. *corpus_idbow_freq*: la lista di BoW calcolata precedentemente
+  2. *num_topics*: numero di topic che verranno estratti dal corpus (nel nostro caso 10)
+  3. *id2word*: dizionario di (int, str) ottenuto con *corpora.Dictionary* e *filter_extremes* (primi due passi menzionati prima). Il dizionario verrà usato per determinare la dimensione del vocabolario e per la stampa dei topic.
+  4. *passes*: numero di volte che attraverso il corpus in fase di training.
+  5. *alpha*: probabilità a priori di ogni topic (nel nostro caso sono equiprobabili).
+  6. *eta*: probabilità a priori di ogni parola (ogni termine è equiprobabile).
+
+#### Risultati
+
+Il corpus *travelling* contiene esattamente 100 documenti. Il modello LDA ottenuto a partire dai documenti restituisce 10 topic di questo tipo:
+
+<code>
+
+```python
+Topic 0 : [('clause', 0.045), ('example', 0.02), ('third', 0.02), ('perfect', 0.016), ('conditionals', 0.014)]
+Topic 1 : [('travel', 0.017), ('money', 0.014), ('lot', 0.011), ('holiday', 0.011), ('dream', 0.01)]
+Topic 2 : [('clause', 0.026), ('situation', 0.015), ('condition', 0.015), ('result', 0.015), ('happen', 0.015)]
+Topic 3 : [('students', 0.065), ('exam', 0.035), ('book', 0.026), ('sb', 0.026), ('speak', 0.025)]
+Topic 4 : [('word', 0.023), ('clause', 0.021), ('happen', 0.014), ('example', 0.013), ('noun', 0.013)]
+Topic 5 : [('level', 0.02), ('teach', 0.016), ('video', 0.015), ('love', 0.015), ('esl', 0.015)]
+Topic 6 : [('hotel', 0.038), ('book', 0.035), ('holiday', 0.025), ('beach', 0.023), ('travel', 0.016)]
+Topic 7 : [('lesson', 0.038), ('student', 0.012), ('grammar', 0.01), ('learn', 0.01), ('language', 0.009)]
+Topic 8 : [('clause', 0.015), ('condition', 0.013), ('happen', 0.012), ('result', 0.012), ('book', 0.01)]
+Topic 9 : [('travel', 0.031), ('article', 0.026), ('word', 0.021), ('journey', 0.02), ('example', 0.017)]
+```
+
+</code>
+
+Notiamo che ogni topic è descritto mediante 5 termini ordinati in base alla loro significatività all'interno del topic.
+
+Infine, vengono mostrati i topics appartenenti ai primi 10 documenti (per una visione completa dei risultati vedere il *notebook*).
+
+<code>
+
+```python
+Doc 0 : [(1, 0.8516115), (9, 0.14705722)]
+Doc 1 : [(1, 0.1281324), (3, 0.2067905), (6, 0.6648527)]
+Doc 2 : [(1, 0.43143946), (7, 0.5667039)]
+Doc 3 : [(0, 0.7186929), (3, 0.101707526), (7, 0.05541384), (9, 0.12384491)]
+Doc 4 : [(7, 0.99982)]
+Doc 5 : [(3, 0.08431996), (4, 0.04471661), (7, 0.46974307), (9, 0.40117958)]
+Doc 6 : [(7, 0.99901193)]
+Doc 7 : [(0, 0.7027754), (2, 0.11124558), (7, 0.18546453)]
+Doc 8 : [(1, 0.99991614)]
+Doc 9 : [(1, 0.999696)]
+Doc 10 : [(2, 0.73135585), (4, 0.26853248)]
+```
+
+</code>
 
