@@ -330,7 +330,7 @@ La sesta esercitazione prevede la realizzazione del task di **summarization**. I
 <img src="Esercitazione 2.1/WO_rank.gif" alt="image-20211105155148294" style="zoom:40%;" />
 </p>
 
-    Dove _O_ è l'insieme di dimensioni in comune tra i due vettori.
+   Dove _O_ è l'insieme di dimensioni in comune tra i due vettori.
 
 - **bag_of_word_approach(text)**: metodo che effettua la rimozione delle stop-words e della punteggiatura. I termini rimanenti vengono ridotti nel loro lemma.
 
