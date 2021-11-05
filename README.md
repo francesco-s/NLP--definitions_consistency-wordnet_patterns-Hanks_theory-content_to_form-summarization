@@ -30,7 +30,9 @@ Il file _definizioni.csv_ contiene 30 definizioni per ogni concetto.
 
 - **_cosine_sim(def1, def2)_** : prende in input due insiemi di parole corrispondenti a due definizioni distinte, crea due vettori numerici, uno per _def1_ e uno per _def2_, che conterranno 1 se la parola in analisi appartiene al set, 0 altrimenti. Ciò viene fatto per ogni parola che appare nelle due definizioni. Il calcolo della similarità del coseno viene effuata proprio tra questi due vettori numerici. La similarità è uguale al rapporto del prodotto scalare tra i vettori e il prodotto delle loro norme.
 
+<p align="center">
 <img src="Esercitazione 1.4/cosine.gif" alt="image-20211105155148294" style="zoom:40%;" />
+</p>
 
 - **_compute_result(definitions_words)_**: prende in input il dizionario di liste contenente le definizioni processate e calcola la similarità tra tutte le coppie di definizioni dello stesso concetto. Restituirà il valore medio delle similrità calcolate per ogni concetto.
 
@@ -324,9 +326,11 @@ La sesta esercitazione prevede la realizzazione del task di **summarization**. I
 
 - **weighted_overlap(nasari_vector_1, nasari_vector_2)**: Implementazione della formula di _Weighted Overlap_ tra due vettori di nasari. Maggiore è l'overlap è più simili saranno i vettori.
 
+<p align="center">
 <img src="Esercitazione 2.1/WO_rank.gif" alt="image-20211105155148294" style="zoom:40%;" />
+</p>
 
-  Dove _O_ è l'insieme di dimensioni in comune tra i due vettori.
+    Dove _O_ è l'insieme di dimensioni in comune tra i due vettori.
 
 - **bag_of_word_approach(text)**: metodo che effettua la rimozione delle stop-words e della punteggiatura. I termini rimanenti vengono ridotti nel loro lemma.
 
