@@ -30,9 +30,9 @@ Il file _definizioni.csv_ contiene 30 definizioni per ogni concetto.
 
 - **_cosine_sim(def1, def2)_** : prende in input due insiemi di parole corrispondenti a due definizioni distinte, crea due vettori numerici, uno per _def1_ e uno per _def2_, che conterranno 1 se la parola in analisi appartiene al set, 0 altrimenti. Ciò viene fatto per ogni parola che appare nelle due definizioni. Il calcolo della similarità del coseno viene effuata proprio tra questi due vettori numerici. La similarità è uguale al rapporto del prodotto scalare tra i vettori e il prodotto delle loro norme.
 
-  $$
-  cosine(v_1,v_2) = \frac{v_1 \bullet v_2}{||v_1|| \cdot ||v_2||}
-  $$
+  \begin{equation}
+   cosine(v_1,v_2) = \frac{v_1 \bullet v_2}{||v_1|| \cdot ||v_2||}
+  \end{equation}
 
 - **_compute_result(definitions_words)_**: prende in input il dizionario di liste contenente le definizioni processate e calcola la similarità tra tutte le coppie di definizioni dello stesso concetto. Restituirà il valore medio delle similrità calcolate per ogni concetto.
 
