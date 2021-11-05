@@ -324,14 +324,12 @@ La sesta esercitazione prevede la realizzazione del task di **summarization**. I
 
 - **calculate_rank(vector, nasari_vector)**: calcola il rank di uno specifico vettore. Nel nostro caso verrà restituito la posizione che ha il vettore all'interno del vettore di nasari.
 
-- **weighted_overlap(nasari_vector_1, nasari_vector_2)**: Implementazione della formula di _Weighted Overlap_ tra due vettori di nasari. Maggiore è l'overlap è più simili saranno i vettori.
+- **weighted_overlap(nasari_vector_1, nasari_vector_2)**: Implementazione della formula di _Weighted Overlap_ tra due vettori di nasari. Maggiore è l'overlap è più simili saranno i vettori. _O_ è l'insieme di dimensioni in comune tra i due vettori.
 
 <p align="center">
 <img src="Esercitazione 2.1/WO_rank.gif" alt="image-20211105155148294" style="zoom:40%;" />
 </p>
-<p align="center">
-Dove _O_ è l'insieme di dimensioni in comune tra i due vettori.
-</p>
+
 
 - **bag_of_word_approach(text)**: metodo che effettua la rimozione delle stop-words e della punteggiatura. I termini rimanenti vengono ridotti nel loro lemma.
 
