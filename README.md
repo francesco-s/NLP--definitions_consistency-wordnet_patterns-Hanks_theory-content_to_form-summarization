@@ -235,16 +235,15 @@ Nelle due prossime tabelle verranno mostrati i 10 cluster più frequenti per ogn
 A partire dallo stesso corpus di dati testuali su cui è stato testato il principio di Hanks, è stato creato un Knowledge Graph utile alla visualizzazione di alcune informazioni contenute nel testo. Calcolati i pattern del tipo *(soggetto, oggetto, frase)*, visti prima, tramite *spacy* è stato possibile estrarre il loro part of speech. Fatto questo si è potuto procedere alla creazione del KG tramite il modulo *pyvis*: la rete risultate ha come nodi tutti i PoS trovati sia per i soggetti sia per gli oggetti. Tutti questi nodi *dependents* sono in relazione con un unico nodo che rappresenta il verbo (buy o eat). Gli archi sono etichettati con la tipologia di relazione: nel nostro caso la relazione *verbo-soggetto* e *verbo-oggetto*.
 
 L'immagine mostra nodi e archi del KG riguardanti il PoS di 25 frasi del corpus *buy*. Gli archi uscenti dai nodi che non sono il verbo corrispondono al soggetto, i nodi con soli archi entranti rappresentano gli oggetti.
-
-<img src="Esercitazione 1.4/KG PoS.jpg" alt="image-20211105153947345" style="zoom:60%;" />
-
+<p align="center">
+  <img src="Esercitazione 1.4/KG PoS.jpg" alt="image-20211105153947345" style="zoom:60%;" />
+</p>
 Ottenuto il grafo di conoscenza è stato possibile calcolare delle statistiche utili in fase di disambiguazione. In particolare sono state contate le occorrenze di ogni tag per soggetti ed oggetti. Le immagini sottostanti mostrano una distribuzione calcolata a partire da 250 frasi.
 
-<img src="Esercitazione 1.4/Plot subj PoS.jpg" alt="image-20211105155148294" style="zoom:40%;" />
-
-
-
-<img src="Esercitazione 1.4/Plot obj PoS.jpg" alt="image-20211105155223623" style="zoom:40%;" />
+<p align="center">
+  <img src="Esercitazione 1.4/Plot subj PoS.jpg" alt="image-20211105155148294" style="zoom:40%;" />
+  <img src="Esercitazione 1.4/Plot obj PoS.jpg" alt="image-20211105155223623" style="zoom:40%;" />
+</p>
 
 I due grafici mostrano la frequenza dei PoS per soggetti (primo grafico) e oggetti (secondo grafico). Dal primo si evince come, stopwords escluse, i PoS che occorrono più frequentemente nel ruolo di *subject* sono  principalmente i pronomi, ma troviamo anche nomi (al singolare o non), aggettivi e verbi (entrambi in forma sostantivata). Pronomi non così frequenti, invece, nel ruolo di oggetti, notiamo un maggior numero di *NN*, di *NNS* e *NNP*. Da evidenziare anche la presenza di valori numerici (*CD*) e avverbi (*RB*).
 
