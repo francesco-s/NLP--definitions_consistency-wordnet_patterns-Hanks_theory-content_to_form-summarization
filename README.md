@@ -324,9 +324,7 @@ La sesta esercitazione prevede la realizzazione del task di **summarization**. I
 
 - **weighted_overlap(nasari_vector_1, nasari_vector_2)**: Implementazione della formula di _Weighted Overlap_ tra due vettori di nasari. Maggiore è l'overlap è più simili saranno i vettori.
 
-  $$
-  WO(v_1,v_2) = \frac{\sum_{q \in O} (rank(q, v_1) + rank(q, v_2))^{-1}}{\sum_{i=1}^{|O|} (2i)^{-1}}
-  $$
+<img src="Esercitazione 2.1/WO_rank.gif" alt="image-20211105155148294" style="zoom:40%;" />
 
   Dove _O_ è l'insieme di dimensioni in comune tra i due vettori.
 
