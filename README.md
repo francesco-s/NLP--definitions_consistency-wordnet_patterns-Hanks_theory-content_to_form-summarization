@@ -5,7 +5,7 @@
 ## Prima-Seconda esercitazione
 
 #### Introduzione
-<img src="https://latex.codecogs.com/svg.latex?\Large&space;cosine(v_1,v_2) = \frac{v_1 \bullet v_2}{||v_1|| \cdot ||v_2||}" />
+cosine%28v_1%2Cv_2%29%20%3D%20%5Cfrac%7Bv_1%20%5Cbullet%20v_2%7D%7B%7C%7Cv_1%7C%7C%20%5Ccdot%20%7C%7Cv_2%7C%7C%7D
 La prima e seconda esercitazione riguardano il calcolo della consistenza tra definizioni effettuate da noi studenti. Il task svolto a lezione prevedeva la selezione di 4 concetti, tra tutti quelli proposti dagli studenti, e di descrivere tali parole mediante definizioni. Ogni persona ha effettuato l'annotazione in modo indipendente cioè in base alla sua conoscenza del concetto.
 
 Sono stati scelti 4 concetti di cui 2 generici e 2 specifici. Ogni concetto generici o specifici può essere a sua volta astratto o concreto:
