@@ -30,10 +30,7 @@ Il file _definizioni.csv_ contiene 30 definizioni per ogni concetto.
 
 - **_cosine_sim(def1, def2)_** : prende in input due insiemi di parole corrispondenti a due definizioni distinte, crea due vettori numerici, uno per _def1_ e uno per _def2_, che conterranno 1 se la parola in analisi appartiene al set, 0 altrimenti. Ciò viene fatto per ogni parola che appare nelle due definizioni. Il calcolo della similarità del coseno viene effuata proprio tra questi due vettori numerici. La similarità è uguale al rapporto del prodotto scalare tra i vettori e il prodotto delle loro norme.
 
-
-
-![equation](https://latex.codecogs.com/gif.download?cosine%28v_1%2Cv_2%29%20%3D%20%5Cfrac%7Bv_1%20%5Cbullet%20v_2%7D%7B%7C%7Cv_1%7C%7C%20%5Ccdot%20%7C%7Cv_2%7C%7C%7D)
-
+<img src="Esercitazione 1.4/cosine.gif" alt="image-20211105155148294" style="zoom:40%;" />
 
 - **_compute_result(definitions_words)_**: prende in input il dizionario di liste contenente le definizioni processate e calcola la similarità tra tutte le coppie di definizioni dello stesso concetto. Restituirà il valore medio delle similrità calcolate per ogni concetto.
 
