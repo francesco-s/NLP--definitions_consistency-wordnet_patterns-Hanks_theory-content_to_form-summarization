@@ -264,7 +264,7 @@ Secondo il principio **Genus-Differentia** **definition** un concetto può esser
 - **remove_stopwords(words_list)**, **remove_punctuation(sentence)**, **tokenize_sentence(sentence)**, **get_signature(sense)**: implementazione analoga all'esercizio precedente.
 - **get_definitions(file)**: stessa implementazione del primo esercizio: legge un file _.csv_ e restituisce un dizionario con le definizioni per ogni concetto in analisi.
 - **get_genus_list(definitions_word)**: ottenute le definizioni dei concetti, utilizziamo ancora il modulo _Counter_ per ottenere un dizionario le cui chiavi sono le parole appartentenenti alla defininizione e i valori rappresentano la frequenza di comparsa di quella parola. Utilizzeremo come _genus_ le 5 parole che appaiono più frequentemente dato che, grazie a loro, è possibile creare un _intorno semantico_.
-- **get_candidates(genus_list, definitions_word)**: per ogni genus ottengo il suo miglior iperonimo, ovvero quello che va a massimizzare l'overlap tra la _signature_ (gloss + esempi) dell'iperonimo e il BoW delle definizioni associate al concetto in analisi.
+- **get_candidates(genus_list, definitions_word)**: per ogni genus ottengo il suo miglior iponimo, ovvero quello che va a massimizzare l'overlap tra la _signature_ (gloss + esempi) dell'iperonimo e il BoW delle definizioni associate al concetto in analisi.
 
 #### Risultati
 
@@ -396,7 +396,7 @@ Come prevedibile, man mano aumentiamo il tasso di compressione entrambe le metri
 
 #### Introduzione
 
-Lo sesta esercitazione prevede l'implementazione del **topic modelling**, ovvero creare un modello statistico in grado di determinare gli argomenti o topic da una collezione di documenti. Non ci limiteremo a individuare il topic principale, ma cercheremo anche dei sotto-argomenti più specifici e distinti da quello principale.
+Lo settima esercitazione prevede l'implementazione del **topic modelling**, ovvero creare un modello statistico in grado di determinare gli argomenti o topic da una collezione di documenti. Non ci limiteremo a individuare il topic principale, ma cercheremo anche dei sotto-argomenti più specifici e distinti da quello principale.
 
 Gli esperimenti sono stati condotti tramite alcuni corpus estrapolati da _Sketch Engine_. Gli unici corpus disponibili gratuitamente al download e che presentano una struttura e una composizione organizzata in documenti e paragrafi sono 3: _travelling_, _italian_cuisine_, _future_tenses_. Quest'ultimo contiene solo 10 documenti e non consente la creazione di un modello accurato. In questa analisi tratteremo il corpus _travelling_.
 
