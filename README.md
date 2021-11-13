@@ -236,13 +236,13 @@ A partire dallo stesso corpus di dati testuali su cui è stato testato il princi
 
 L'immagine mostra nodi e archi del KG riguardanti il PoS di 25 frasi del corpus *buy*. Gli archi uscenti dai nodi che non sono il verbo corrispondono al soggetto, i nodi con soli archi entranti rappresentano gli oggetti.
 <p align="center">
-  <img src="Esercitazione 1.4/KG PoS.jpg" alt="image-20211105153947345" style="zoom:60%;" />
+  <img src="Esercitazione 1.4 + EXTRA/KG PoS.jpg" alt="image-20211105153947345" style="zoom:60%;" />
 </p>
 Ottenuto il grafo di conoscenza è stato possibile calcolare delle statistiche utili in fase di disambiguazione. In particolare sono state contate le occorrenze di ogni tag per soggetti ed oggetti. Le immagini sottostanti mostrano una distribuzione calcolata a partire da 250 frasi.
 
 <p align="center">
-  <img src="Esercitazione 1.4/Plot subj PoS.jpg" alt="image-20211105155148294" style="zoom:40%;" />
-  <img src="Esercitazione 1.4/Plot obj PoS.jpg" alt="image-20211105155223623" style="zoom:40%;" />
+  <img src="Esercitazione 1.4 + EXTRA/Plot subj PoS.jpg" alt="image-20211105155148294" style="zoom:40%;" />
+  <img src="Esercitazione 1.4 + EXTRA/Plot obj PoS.jpg" alt="image-20211105155223623" style="zoom:40%;" />
 </p>
 
 I due grafici mostrano la frequenza dei PoS per soggetti (primo grafico) e oggetti (secondo grafico). Dal primo si evince come, stopwords escluse, i PoS che occorrono più frequentemente nel ruolo di *subject* sono  principalmente i pronomi, ma troviamo anche nomi (al singolare o non), aggettivi e verbi (entrambi in forma sostantivata). Pronomi non così frequenti, invece, nel ruolo di oggetti, notiamo un maggior numero di *NN*, di *NNS* e *NNP*. Da evidenziare anche la presenza di valori numerici (*CD*) e avverbi (*RB*).
